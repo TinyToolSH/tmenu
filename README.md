@@ -64,3 +64,4 @@ Any argument you want to pass to the menu utility can be declared in double quot
 ```bash
 ls . | tmenu -d "-l 8 -p 'Files'"
 ```
+        

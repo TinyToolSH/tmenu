@@ -1,17 +1,27 @@
-#!/bin/bash
-read -r -d '' list
+#!/bin/sh
+
+# There should be another way to do this
+read_from_pipe()
+{
+    list=""
+    while read -r item; do
+        list="$list$item\n"
+    done
+    echo "$list"
+}
 
 menu="dmenu"
 args=""
 
-while getopts dfrp: option
+while getopts dxfra: option
 do
     case "${option}" in
         d) menu="dmenu";;
-        f) menu="fzf --bind=enter:replace-query+print-query ";;
+        f) menu="fzf --bind=enter:replace-query+print-query";;
         r) menu="rofi -dmenu";;
+        x) menu="xmenu";;
         # couldn't make it possible to pass as just a string ($2?), had to pass as a parameter
-        p) args="${OPTARG}";;
+        a) args="${OPTARG}";;
         *) echo "menu not available"; exit 1 ;;
     esac
 done
@@ -20,4 +30,4 @@ done
 # demo of behaviour: tmenu -d -p "-p 'a prompt'"
 menu_command="$menu $args"
 
-printf '%b\n' "$list" | $menu_command  
+printf '%b\n' "$(read_from_pipe)" | $menu_command
