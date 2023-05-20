@@ -8,7 +8,7 @@ while getopts dfrp: option
 do
     case "${option}" in
         d) menu="dmenu";;
-        f) menu="fzf";;
+        f) menu="fzf --bind=enter:replace-query+print-query ";;
         r) menu="rofi -dmenu";;
         # couldn't make it possible to pass as just a string ($2?), had to pass as a parameter
         p) args="${OPTARG}";;
@@ -17,7 +17,7 @@ do
 done
 
 # currently not removing single quotes from parameters
-# demo of behaviour: tmenu.sh -d -p "-p 'a prompt'"
+# demo of behaviour: tmenu -d -p "-p 'a prompt'"
 menu_command="$menu $args"
 
 printf '%b\n' "$list" | $menu_command  
