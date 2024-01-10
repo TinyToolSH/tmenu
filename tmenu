@@ -21,13 +21,18 @@ do
         r) menu="rofi -dmenu";;
         x) menu="xmenu";;
         # couldn't make it possible to pass as just a string ($2?), had to pass as a parameter
-        a) args="${OPTARG}";;
+        a)
+            args="${OPTARG}"
+            if [ "$menu" = "fzf --bind=enter:replace-query+print-query" ]; then
+                args=$(echo "$args" | sed 's/-p/--prompt/g')
+            fi
+            ;;
         *) echo "menu not available"; exit 1 ;;
     esac
 done
 
 # currently not removing single quotes from parameters
-# demo of behaviour: tmenu -d -p "-p 'a prompt'"
+# demo of behaviour: tmenu -d -a "-p 'a prompt'"
 menu_command="$menu $args"
 
 printf '%b\n' "$(read_from_pipe)" | $menu_command
