@@ -59,8 +59,8 @@ ls . | tmenu -r
 ls . | tmenu -x
 ```
 
-Any argument you want to pass to the menu utility can be declared in double quotes
+Any argument you want to pass to the menu utility can be declared by calling `-a` and passing the arguments in double quotes:
 
 ```bash
-ls . | tmenu -d "-l 8 -p 'Files'"
+ls . | tmenu -d -a "-l 8 -p 'Files'"
 ```
